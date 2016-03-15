@@ -1,0 +1,3 @@
+package wsnfuture;
+
+@license(LGPL);

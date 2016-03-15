@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<scave:Analysis xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:scave="http://www.omnetpp.org/omnetpp/scave">
+  <inputs>
+    <inputs name="/wsnfuture/results/General-*.vec"/>
+    <inputs name="/wsnfuture/results/General-*.sca"/>
+  </inputs>
+  <datasets>
+    <datasets name="NEW">
+      <items xsi:type="scave:Add" filterPattern=""/>
+      <items xsi:type="scave:BarChart" name="">
+        <filters xsi:type="scave:Deselect"/>
+        <filters xsi:type="scave:Select"/>
+        <properties name="Legend.Display" value="true"/>
+      </items>
+      <items xsi:type="scave:Add" filterPattern="" type="VECTOR"/>
+      <items xsi:type="scave:Add" filterPattern="" type="HISTOGRAM"/>
+      <items xsi:type="scave:HistogramChart" name="">
+        <properties name="Legend.Display" value="true"/>
+      </items>
+      <items xsi:type="scave:LineChart" name="" lineNameFormat="">
+        <properties name="Legend.Display" value="true"/>
+      </items>
+      <items xsi:type="scave:ScatterChart" name="" xDataPattern="module(Network.lcn[0]) AND name(#received)">
+        <properties name="Legend.Display" value="true"/>
+      </items>
+    </datasets>
+  </datasets>
+  <chartSheets>
+    <chartSheets name="default" charts="//@datasets/@datasets.0/@items.1 //@datasets/@datasets.0/@items.4 //@datasets/@datasets.0/@items.5 //@datasets/@datasets.0/@items.6"/>
+  </chartSheets>
+</scave:Analysis>
