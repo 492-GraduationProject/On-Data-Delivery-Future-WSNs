@@ -22,7 +22,7 @@ import ned.IUnidirectionalChannel;
 network Network
 {
     parameters:
-        int numOfSensorNodes=10;
+        int numOfSensorNodes=250;
         int width =1000 ;
         int height =1000 ;
         int type;
@@ -32,7 +32,7 @@ network Network
         x = width/5;
         y = height/5;
         @display("bgb=$width,$height,white,white,00;bgs=2,m");
-        int snCacheSize =128*1024*8;
+        int snCacheSize =31;
         int snRange=142;
 
         double Delay=1;
@@ -49,7 +49,7 @@ network Network
   	    double bat_Drain_Co =0.015;
 
         int lcnRange =300;
-        int lcnCache =2000000;
+        int lcnCache =25;
         double lcnBat_Full=110160.0 ;
         double lcnBatTrasmitting =0.0000538;
         double lcnBatReceiving =0.0000312;

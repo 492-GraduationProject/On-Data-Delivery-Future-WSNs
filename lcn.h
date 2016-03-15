@@ -24,11 +24,12 @@
 
 #define hopBits 10.0
 #define M -1
+#define LCN_CACHE 2*1024*1024*1024
 
 
 enum RxTx{Rec=0,Trans=1};
 enum direction{right=0, left=1, up=2, down=3, up_right=4, up_left =5, down_right=6, down_left=7};
-
+//static int tempSN;
 
 class LCN : public cSimpleModule {
 
@@ -38,12 +39,13 @@ private:
     int numberofreceived = 0;
     int lcnXcoord ;
     int lcnYcoord ;
+int flag_req;
+bool situation;
     long lcnBtrySt;
     double Rx;
     double Tx;
     cLongHistogram hopCountStats;
     cOutVector hopCountVector;
-
 
 protected:
 

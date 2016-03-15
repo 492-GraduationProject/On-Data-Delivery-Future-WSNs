@@ -26,6 +26,7 @@
 #include <stdlib.h>
 #include <cgate.h>
 #include <math.h>
+#include <vector>
 
 
 
@@ -41,6 +42,10 @@ static double energy[36];
 static int coordinates[36][2];
 static int neigh[36][36];
 static int flagLCN[36];
+static int  data_cache_value;
+std::vector <int>lcn_req_dest;
+std::vector <int>lcn_req_type;
+
 
 Define_Module(LCN);
 
@@ -55,7 +60,7 @@ void LCN::initialize() {
            // ev<<"index "<<getIndex()<<"Coordinates   "<<coordinates[getIndex()][0]<<" "<< coordinates[getIndex()][1]<<endl;
 
 
-        int data_cache_value = getParentModule()->par("lcnCache");
+         data_cache_value = getParentModule()->par("lcnCache");
 
         //int size_of_cahce_array= data_cache_value % 9;
 
@@ -78,6 +83,7 @@ void LCN::handleMessage(cMessage *msg) {
     Packet *pckt = check_and_cast<Packet *>(msg);
     int type=getParentModule()->par("type");
     int fwdIndex = getIndex();
+    //tempSN=getIndex();
     int targetX = (pckt->getCoords(0));
     int targetY = (pckt->getCoords(1));
     lcnXcoord = (fwdIndex % 6)*200;
@@ -191,6 +197,9 @@ void LCN::handleMessage(cMessage *msg) {
                 {
                 hop=0;
                 gcnNum=0;
+
+                flag_req = -1;
+                situation=false;
                 sensor_analyze(pckt);
                 bubble("Data is sent to the LCN.");
                 if(calculateEnergy(Trans,energy)<=0)endSimulation();
@@ -398,6 +407,8 @@ void LCN::handleMessage(cMessage *msg) {
                       {
                       hop=0;
                       gcnNum=0;
+                      flag_req = -1;
+                      situation=false;
                       sensor_analyze(pckt);
                       bubble("Data is sent to the LCN.");
                       if(calculateEnergy(Trans,energy)<=0)endSimulation();
@@ -601,6 +612,8 @@ void LCN::handleMessage(cMessage *msg) {
                         {
                         hop=0;
                         gcnNum=0;
+                        flag_req = -1;
+                        situation=false;
                         sensor_analyze(pckt);
                         bubble("Data is sent to the LCN.");
                         calculateEnergy(1,energy);//endSimulation();
@@ -1357,6 +1370,23 @@ void LCN::sensor_analyze(Packet *pckt) {
     for(int i=0;i<10;i++){
         int random=intuniform(0,(g_size/6)-1);
         send((Packet *) pckt->dup(), "lcnSN$o", random);
+        if(flag_req<0){
+            while(situation==false){
+                if(data_cache_value>=6){
+                    lcn_req_type.push_back(pckt->getSensor());
+                    lcn_req_dest.push_back(getIndex());
+                    data_cache_value = data_cache_value - 6;
+                    flag_req = 1;
+                    situation=true;
+                    ev<<lcn_req_type[0]<< "    "<<lcn_req_dest[0]<<endl;
+                }
+                lcn_req_type.erase(lcn_req_type.begin());
+                lcn_req_dest.erase(lcn_req_dest.begin());
+                data_cache_value = data_cache_value + 6;
+            }
+      }
+        //ev<<lcn_req_all[0][0]<<endl;
+
         calculateEnergy(1,energy);
     }
     snNum=g_size/6;
@@ -1428,6 +1458,6 @@ void LCN::finish()
 
    // recordScalar("#sent", numberofsent);
     //recordScalar("#received", numberofreceived);
-
+    //std::vector<std::vector<int>>lcn_req_all={move(lcn_req_type),move(lcn_req_dest)};
     hopCountStats.recordAs("hop count");
 }

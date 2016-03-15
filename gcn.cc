@@ -104,7 +104,7 @@ Packet *GlobalNode :: createMessage()
     int size = gateSize("gcn_out");
     Packet *paket = new Packet();//create message
 
-    request_type = intuniform(1,5); // request type
+    request_type = intuniform(1,5); // sense type
     paket->setType(REQ);// REQ or DATA
     paket->setSensor(request_type);
 
