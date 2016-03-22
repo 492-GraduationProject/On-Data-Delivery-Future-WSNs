@@ -23,7 +23,6 @@
 #include <lcn.h>
 #include <fstream>
 #include <limits>
-#include <cStatistic.h>
 static int delay=1;
 
 typedef std::numeric_limits< double > dbl;
@@ -84,6 +83,14 @@ void GlobalNode:: handleMessage(cMessage *msg)
 
         Packet * paket = createMessage();
 
+        std::ofstream newFile2("sent.txt", std::ios_base::app);
+        newFile2.precision(dbl::max_digits10);
+        numberofsent++;
+
+
+        newFile2<<numberofsent<<endl;
+
+
         scheduleAt(delay*300.0,paket);
         count++;
         delay++;
@@ -118,15 +125,6 @@ Packet *GlobalNode :: createMessage()
     paket->setSize(0);
 
 
-    std::ofstream newFile2("sent.txt", std::ios_base::app);
-    newFile2.precision(dbl::max_digits10);
-    numberofsent++;
-
-
-
-
-
-    newFile2<<numberofsent<<endl;
 
 
    // ev<<"SENT"<<numberofsent;
