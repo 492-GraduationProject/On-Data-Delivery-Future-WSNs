@@ -55,7 +55,7 @@ void SensorNode:: handleMessage(cMessage *msg){
     case temp:
         size = getParentModule()->par("temp_dataSize");
         power =getParentModule()->par("bat_Drain_Temp");
-        val = intuniform(0,100);
+        val = intuniform(0,50);
         deger[0]++;
 
         sn_caching(1,false, val);
@@ -116,7 +116,8 @@ void SensorNode:: handleMessage(cMessage *msg){
     calculateEnergy (Receive,0) ;
     calculateEnergy (Sense,power );
     calculateEnergy (Transmit,size) ;
-
+   // std::vector<Packet*>temp;
+   // temp.push_back(newMessage(packet->getSensor(),size,val));
     //ev<<"index in sensor"<<tempSN<<endl;
    send (newPacket ,"snIO$o",0) ;  // Sends a message through the gate given with its pointer.
    bubble("Data is send to the LCN.");

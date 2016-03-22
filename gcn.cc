@@ -75,6 +75,7 @@ void GlobalNode:: handleMessage(cMessage *msg)
         delete(paket);
 
            newFile1<<numberofreceived<<endl;
+           ev<<"received"<<numberofreceived<<endl;
     }
     else
     {
@@ -83,6 +84,11 @@ void GlobalNode:: handleMessage(cMessage *msg)
         send(paket,"gcn_out",routingTable[index_1]);
 
         Packet * paket = createMessage();
+
+        std::ofstream newFile2("sent.txt", std::ios_base::app);
+           newFile2.precision(dbl::max_digits10);
+           numberofsent++;
+          ev<<"SENT"<<numberofsent<<endl;
 
         scheduleAt(delay*300.0,paket);
         count++;
@@ -118,18 +124,8 @@ Packet *GlobalNode :: createMessage()
     paket->setSize(0);
 
 
-    std::ofstream newFile2("sent.txt", std::ios_base::app);
-    newFile2.precision(dbl::max_digits10);
-    numberofsent++;
 
 
-
-
-
-    newFile2<<numberofsent<<endl;
-
-
-   // ev<<"SENT"<<numberofsent;
     return paket;
 
 

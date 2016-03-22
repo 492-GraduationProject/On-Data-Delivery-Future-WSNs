@@ -22,7 +22,7 @@ import ned.IUnidirectionalChannel;
 network Network
 {
     parameters:
-        int numOfSensorNodes=250;
+        int numOfSensorNodes=350;
         int width =1000 ;
         int height =1000 ;
         int type;

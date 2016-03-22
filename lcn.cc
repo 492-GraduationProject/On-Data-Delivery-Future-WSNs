@@ -28,8 +28,6 @@
 #include <math.h>
 #include <vector>
 
-
-
 typedef std::numeric_limits< double > dbl;
 #define Rx 0.312
 #define Tx 0.538
@@ -46,6 +44,9 @@ static int  data_cache_value;
 std::vector <int>lcn_req_dest;
 std::vector <int>lcn_req_type;
 
+std::vector <Packet*>temp;
+
+
 
 Define_Module(LCN);
 
@@ -57,14 +58,9 @@ void LCN::initialize() {
             tempEnergy[getIndex()]=100000;//getParentModule()->par("lcnBat_Full").doubleValue()/2;
             coordinates[getIndex()][0]=(getIndex() % 6)*200;
             coordinates[getIndex()][1]=(getIndex() / 6)*200;
-           // ev<<"index "<<getIndex()<<"Coordinates   "<<coordinates[getIndex()][0]<<" "<< coordinates[getIndex()][1]<<endl;
-
 
          data_cache_value = getParentModule()->par("lcnCache");
 
-        //int size_of_cahce_array= data_cache_value % 9;
-
-        //int *data_cache = new int[data_cache_value]; // cache to bytes then divided by 9 (because of incoming data size is 9).
         if(getIndex()==35)
         {
             int i;
@@ -81,6 +77,7 @@ void LCN::initialize() {
 
 void LCN::handleMessage(cMessage *msg) {
     Packet *pckt = check_and_cast<Packet *>(msg);
+
     int type=getParentModule()->par("type");
     int fwdIndex = getIndex();
     //tempSN=getIndex();
@@ -559,6 +556,8 @@ void LCN::handleMessage(cMessage *msg) {
                   break;
           }
         // ENS SPA END SPA ENDS SPA
+
+
     }
 
 
@@ -1369,6 +1368,8 @@ void LCN::sensor_analyze(Packet *pckt) {
     //srand(12345);
     for(int i=0;i<10;i++){
         int random=intuniform(0,(g_size/6)-1);
+       // temp.push_back(pckt->dup());
+
         send((Packet *) pckt->dup(), "lcnSN$o", random);
         if(flag_req<0){
             while(situation==false){
@@ -1420,7 +1421,6 @@ double LCN::calculateEnergy(int RxTx,double *energy){
     newFile1.precision(dbl::max_digits10);
     newFile2.precision(dbl::max_digits10);
     newFile3.precision(dbl::max_digits10);
-
     newFile4.precision(dbl::max_digits10);
     newFile5.precision(dbl::max_digits10);
     newFile6.precision(dbl::max_digits10);

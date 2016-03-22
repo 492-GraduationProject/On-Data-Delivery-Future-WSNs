@@ -28,11 +28,12 @@ PROJECTRELATIVE_PATH =
 O = $(PROJECT_OUTPUT_DIR)/$(CONFIGNAME)/$(PROJECTRELATIVE_PATH)
 
 # Object files for local .cc and .msg files
-OBJS = $O/gcn.o $O/lcn.o $O/sn.o $O/Packet_m.o
+OBJS = $O/gcn.o $O/lcn.o $O/sn.o $O/Packet_m.o $O/PacketOfPackets_m.o
 
 # Message files
 MSGFILES = \
-    Packet.msg
+    Packet.msg \
+    PacketOfPackets.msg
 
 #------------------------------------------------------------------------------
 
@@ -116,6 +117,9 @@ depend:
 	$(Q)$(MAKEDEPEND) $(INCLUDE_PATH) -f Makefile -P\$$O/ -- $(MSG_CC_FILES)  ./*.cc results/*.cc
 
 # DO NOT DELETE THIS LINE -- make depend depends on it.
+$O/PacketOfPackets_m.o: PacketOfPackets_m.cc \
+	PacketOfPackets_m.h \
+	Packet_m.h
 $O/Packet_m.o: Packet_m.cc \
 	Packet_m.h
 $O/gcn.o: gcn.cc \
