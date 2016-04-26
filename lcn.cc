@@ -50,9 +50,7 @@ std::vector <int>lcn_req_type;
 Define_Module(LCN);
 
 void LCN::initialize() {
-    //if(getIndex()==14 || getIndex()==15 || getIndex()==20 || getIndex()==21)
-      //  energy[getIndex()]=15000;
-       // else
+    
             energy[getIndex()]=getParentModule()->par("lcnBat_Full").doubleValue();
             tempEnergy[getIndex()]=100000;//getParentModule()->par("lcnBat_Full").doubleValue()/2;
             coordinates[getIndex()][0]=(getIndex() % 6)*200;
@@ -95,7 +93,7 @@ void LCN::handleMessage(cMessage *msg) {
     calculateEnergy(1,energy);
     hopCountVector.record(hopcount);
     hopCountStats.collect(hopcount);
-    if (energy[getIndex()] <= 0.0 && (type==0 || type==1))
+    if (energy[getIndex()] <= 0.0 && (type==0 || type==1 || type ==2))
        {
 
            bubble("Node battery depleted");
@@ -104,12 +102,7 @@ void LCN::handleMessage(cMessage *msg) {
        }
 
 
-   // ev<<endl<<clock()<<endl;
-
-
-   // if(energy[getIndex()]<=0.0 && getIndex()!=14 && getIndex()!=15 && getIndex()!=20 && getIndex()!=21)
-     //   endSimulation();
-
+  /*
     if( energy[14] <= 0.0 && energy[15] <= 0.0 && energy[20] <= 0.0 && energy[21] <= 0.0)
             {
                 if(energy[14] <= 0.0)
@@ -139,7 +132,7 @@ void LCN::handleMessage(cMessage *msg) {
                 endSimulation();
             }
 
-
+*/
    //NNA############################NNA##################################NNA#######################################################
     if(type == 0)
     {
