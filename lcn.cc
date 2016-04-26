@@ -31,8 +31,8 @@
 
 
 typedef std::numeric_limits< double > dbl;
-#define Rx 0.0312
-#define Tx 0.0538
+#define Rx 0.00312
+#define Tx 0.00538
 
 static int hop = 0;
 static int snNum = 0;
